@@ -11,9 +11,6 @@ typedef struct {
     int grau[MAX];
 } Grafo;
 
-
-
-
 //Método para criar um grafo com um determinado número de vértices
 Grafo* criarGrafo(int num_vertices) {
     Grafo* grafo = (Grafo*)malloc(sizeof(Grafo));
@@ -78,6 +75,7 @@ void remover_aresta(Grafo* grafo, int v1, int v2) {
     }
 }
 
+//Método para a contagem dos graus de um vértice
 void grau_vertice(Grafo* grafo, int vertice){
     int grau = grafo->grau[vertice]; 
     printf("O grau do vertice é: %d\n\n", grau);
