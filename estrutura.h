@@ -45,7 +45,8 @@ void adicionarAresta(struct Grafo* grafo, int v1, int v2) {
 }
 
 // Método para adicionar um vértice ao grafo
-void adicionarVertice(struct Grafo* grafo, int valor) {
+void adicionarVertice(struct Grafo* grafo) {
+    int valor = NULL;
     struct Vertice* novoVertice = criarVertice(valor);
 
     // Aumenta o tamanho do vetor de listas de adjacência
@@ -135,7 +136,7 @@ void imprimirGrafo(struct Grafo* grafo) {
     int i;
     for (i = 0; i < grafo->numVertices; i++) {
         struct Vertice* atual = grafo->listaAdjacencia[i];
-        printf("Vértice %d: ", i);
+        printf("Vertice %d: ", i);
         while (atual != NULL) {
             printf("%d -> ", atual->valor);
             atual = atual->proximo;
@@ -148,13 +149,28 @@ void imprimirGrafo(struct Grafo* grafo) {
 int contarGraus(struct Grafo* grafo, int vertice) {
     int graus = 0;
     struct Vertice* atual = grafo->listaAdjacencia[vertice];
-    
+
     while (atual != NULL) {
         graus++;
         atual = atual->proximo;
     }
-    
+
     return graus;
+}
+
+// Método que gera um grafo completo Kn
+void grafoCompleto(int n){
+    int i, j;
+    struct Grafo* grafo = criarGrafo(n);
+
+    for(i = 0; i < n; i++){
+        for(j = 0; j < n; j++){
+            if(i > j){
+                adicionarAresta(grafo, i, j);
+            }
+        }
+    }
+    imprimirGrafo(grafo);
 }
 
 
