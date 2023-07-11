@@ -8,6 +8,7 @@ struct Vertice {
 
 struct Grafo {
     int numVertices;
+    int numArestas;
     struct Vertice** listaAdjacencia;
 };
 
@@ -23,6 +24,7 @@ struct Vertice* criarVertice(int valor) {
 struct Grafo* criarGrafo(int numVertices) {
     struct Grafo* grafo = (struct Grafo*)malloc(sizeof(struct Grafo));
     grafo->numVertices = numVertices;
+    grafo->numArestas = 0;
     grafo->listaAdjacencia = (struct Vertice**)malloc(numVertices * sizeof(struct Vertice*));
     int i;
     for (i = 0; i < numVertices; i++) {
@@ -42,6 +44,7 @@ void adicionarAresta(struct Grafo* grafo, int v1, int v2) {
     novoVertice = criarVertice(v1);
     novoVertice->proximo = grafo->listaAdjacencia[v2];
     grafo->listaAdjacencia[v2] = novoVertice;
+    grafo->numArestas++;
 }
 
 // Método para adicionar um vértice ao grafo
@@ -89,6 +92,7 @@ void removerAresta(struct Grafo* grafo, int v1, int v2) {
         } else {
             grafo->listaAdjacencia[v2] = atual->proximo;
         }
+        grafo->numArestas--;
         free(atual);
     }
 }
@@ -131,9 +135,39 @@ void removerVertice(struct Grafo* grafo, int valor) {
     grafo->listaAdjacencia = realloc(grafo->listaAdjacencia, grafo->numVertices * sizeof(struct Vertice*));
 }
 
+//Função para contar arestas
+int somatorioGrau(struct Grafo* grafo){
+    int grauTotal = grafo->numArestas * 2;
+    return grauTotal;
+}
+
+//Função para contar o total de vértices de grau ímpar e retorna em variável inteira
+int totalVerticeImpar(struct Grafo* grafo){
+    int totalImpar = 0, grau;
+    for( int i = 0; i < grafo->numVertices; i++){
+        grau = contarGraus(grafo, i);
+        if (grau % 2){
+            totalImpar++;
+        }
+    }
+    return totalImpar;    
+}
+
+//Função para contar o total de vértices de grau par e retorna em variável inteira
+int totalVerticePar(struct Grafo* grafo){
+    int totalPar = 0, grau;
+    for( int i = 0; i < grafo->numVertices; i++){
+        grau = contarGraus(grafo, i);
+        if ((grau % 2) == 0){
+            totalPar++;
+        }
+    }
+    return totalPar;    
+}
+
 // Método para imprimir a estrutura de adjacência do grafo
 void imprimirGrafo(struct Grafo* grafo) {
-    int i;
+    int i, somaGrau, verGrauImpar, verGrauPar;
     for (i = 0; i < grafo->numVertices; i++) {
         struct Vertice* atual = grafo->listaAdjacencia[i];
         printf("Vertice %d: ", i);
@@ -143,6 +177,12 @@ void imprimirGrafo(struct Grafo* grafo) {
         }
         printf("NULL\n");
     }
+    somaGrau = somatorioGrau(grafo);
+    printf("Somatorio dos graus do grafo: %d\n", somaGrau);
+    verGrauImpar = totalVerticeImpar(grafo);
+    verGrauPar = totalVerticePar(grafo);
+    printf("Total de vertices de grau impar: %d\n", verGrauImpar);
+    printf("Total de vertices de grau par: %d\n", verGrauPar);
 }
 
 // Função para contar o número de graus de um vértice
@@ -172,7 +212,6 @@ void grafoCompleto(int n){
     }
     imprimirGrafo(grafo);
 }
-
 
 //Menu para a escolha das opções
 void menu(){
