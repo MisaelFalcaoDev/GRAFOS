@@ -213,6 +213,32 @@ void grafoCompleto(int n){
     imprimirGrafo(grafo);
 }
 
+//Método que gera um grafo k-regular
+/*void grafoKregukar(int n, int k){
+    int i, j, l, grau, par;
+    struct Grafo* grafo = criarGrafo(n);
+
+    for(i = 0; i < k; i++){
+        for(j = 0; j < n; j++){
+            par = 0;
+            l = j + 1;
+            grau = contarGraus(grafo, j);
+            if (grau == i){
+                while(par == 0){
+                    grau = contarGraus(grafo, l);
+                    if (grau == i){
+                        adicionarAresta(grafo, j, l);
+                        par = 1;
+                    } else {
+                        l++;
+                    }
+                }
+            }
+        }
+    }
+    imprimirGrafo(grafo);
+}*/
+
 //Menu para a escolha das opções
 void menu(){
     system("cls");
@@ -225,5 +251,7 @@ void menu(){
     printf("6 - Imprimir grafo 1 \n");
     printf("7 - Imprimir grafo 2 \n");
     printf("8 - Descobrir o grau de um vertice\n");
+    printf("9 - Criar um grafo completo Kn\n");
+    //printf("10 - Criar um grafo k-regular\n");
     printf("0 - Sair \n\n");
 }
