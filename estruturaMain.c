@@ -19,11 +19,11 @@ int main() {
                 imprimirGrafo(grafo);
                 break;
             case 2:
-                adicionarVertice(grafo, vertice);
+                adicionarVertice(grafo);
                 imprimirGrafo(grafo);
                 break;
             case 3:
-                adicionarVertice(grafo, vertice);
+                adicionarVertice(grafo);
                 imprimirGrafo(grafo);
                 break;
             case 4:
@@ -73,7 +73,8 @@ int main() {
                 printf("Digite o numero do vertice que deseja descobrir o valor do grau: \n");
                 scanf("%d", &vertice);
                 grau = contarGraus(grafo, vertice);
-                printf("O grau do vertice %d é: %d\n", vertice, grau);
+                printf("O grau do vertice %d eh: %d\n", vertice, grau);
+                break;
             default : printf("\nInforme uma opcao valida!\n");
         }
         system("pause");
