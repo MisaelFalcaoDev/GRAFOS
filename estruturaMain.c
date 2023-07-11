@@ -5,6 +5,7 @@
 // Função principal
 int main() {
     int op = 1, q, vertice, v1, v2, grau;
+    //int k;
     struct Grafo* grafo_1 = criarGrafo(5);
     struct Grafo* grafo_2 = criarGrafo(5);
     while(op != 0){
@@ -29,9 +30,10 @@ int main() {
             case 4:
                 printf("Digite v1: ");
                 scanf("%d", &v1);
-                printf("\nDigite v2: \n");
+                printf("\nDigite v2: ");
                 scanf("%d", &v2);
                 adicionarAresta(grafo, v1, v2);
+                printf("\n");
                 imprimirGrafo(grafo);
                 break;
             case 5:
@@ -75,9 +77,22 @@ int main() {
                 grau = contarGraus(grafo, vertice);
                 printf("O grau do vertice %d eh: %d\n", vertice, grau);
                 break;
+            case 9:
+                printf("Escolha a quantidade de vertices do grafo completo: ");
+                scanf("%d", &q);
+                grafoCompleto(q);
+                break;
+            /*case 10:
+                printf("Escolha a quantidade de vertices do grafo k-regular: ");
+                scanf("%d", &q);
+                printf("\nEscolha o valor de k: ");
+                scanf("%d", &k);
+                grafoKregukar(q, k);
+                break;*/
             default : printf("\nInforme uma opcao valida!\n");
         }
         system("pause");
     }
     return 0;
 }
+
