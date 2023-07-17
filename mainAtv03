@@ -11,5 +11,5 @@ void main(){
     adicionarAresta(grafo, 3,4);
     imprimirGrafo(grafo);
 
-    buscaProfundidade(grafo, 0);
+    buscaProfundidade(grafo);
 }
