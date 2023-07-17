@@ -240,24 +240,79 @@ void grafoCompleto(int n){
 }*/
 
 //atividade 03 
-void buscaProfundidade(struct Grafo* grafo, int vertice){
+void buscaProfundidade(struct Grafo* grafo) {
     int* visited = (int*)calloc(grafo->numVertices, sizeof(int));
-    bVertice(grafo, vertice, visited);
-    free(visited);
-}
-void bVertice(struct Grafo* grafo, int vertice, int* visited){
-    visited[vertice] = 1;
-    printf("Vertice visitado: %d ", vertice);
+    struct Grafo* arvore = criarGrafo(grafo->numVertices);
+    struct Grafo* retorno = criarGrafo(grafo->numVertices);
 
-    struct Vertice* verticeAdj = grafo->listaAdjacencia[vertice];
-
-    while(verticeAdj != NULL){
-        if(visited[verticeAdj->valor] == 0){
-            bVertice(grafo, verticeAdj->valor, visited);
+    for (int i = 0; i < grafo->numVertices; ++i) {
+        if (visited[i] == 0) {
+            bVertice(grafo, i, visited, -1, arvore, retorno);
         }
-        verticeAdj = verticeAdj->proximo;
     }
 
+    printf("Arestas da Arvore:\n");
+    for (int i = 0; i < arvore->numVertices; ++i) {
+        struct Vertice* verticeAdj = arvore->listaAdjacencia[i];
+        while (verticeAdj != NULL) {
+            if (verticeAdj->valor > i) {  // Evitar duplicatas de arestas
+                printf("%d -- %d\n", i, verticeAdj->valor);
+            }
+            verticeAdj = verticeAdj->proximo;
+        }
+    }
+
+    printf("\nArestas de Retorno:\n");
+    for (int i = 0; i < retorno->numVertices; ++i) {
+        struct Vertice* verticeAdj = retorno->listaAdjacencia[i];
+        while (verticeAdj != NULL) {
+            if (verticeAdj->valor > i) {  // Evitar duplicatas de arestas
+                printf("%d -- %d\n", i, verticeAdj->valor);
+            }
+            verticeAdj = verticeAdj->proximo;
+        }
+    }
+
+    // Liberar a memória alocada
+    for (int i = 0; i < grafo->numVertices; ++i) {
+        struct Vertice* verticeAdj = grafo->listaAdjacencia[i];
+        while (verticeAdj != NULL) {
+            struct Vertice* prev = verticeAdj;
+            verticeAdj = verticeAdj->proximo;
+            free(prev);
+        }
+    }
+    free(grafo->listaAdjacencia);
+    free(grafo);
+
+    free(arvore->listaAdjacencia);
+    free(arvore);
+
+    free(retorno->listaAdjacencia);
+    free(retorno);
+
+    free(visited);
+}
+
+void bVertice(struct Grafo* grafo, int vertice, int* visited, int parent, struct Grafo* arvore, struct Grafo* retorno) {
+    visited[vertice] = 1;
+    printf("Vertice visitado: %d \n", vertice);
+
+    // Percorrer os vértices adjacentes
+    struct Vertice* verticeAdj = grafo->listaAdjacencia[vertice];
+    while (verticeAdj != NULL) {
+        if (visited[verticeAdj->valor] == 0) {
+            // Marcar a aresta como uma aresta da árvore
+            adicionarAresta(arvore, vertice, verticeAdj->valor);
+
+            bVertice(grafo, verticeAdj->valor, visited, vertice, arvore, retorno);
+        } else if (verticeAdj->valor != parent) {
+            // Marcar a aresta como uma aresta de retorno
+            adicionarAresta(retorno, vertice, verticeAdj->valor);
+        }
+
+        verticeAdj = verticeAdj->proximo;
+    }
 }
 
 
