@@ -239,6 +239,28 @@ void grafoCompleto(int n){
     imprimirGrafo(grafo);
 }*/
 
+//atividade 03 
+void buscaProfundidade(struct Grafo* grafo, int vertice){
+    int* visited = (int*)calloc(grafo->numVertices, sizeof(int));
+    bVertice(grafo, vertice, visited);
+    free(visited);
+}
+void bVertice(struct Grafo* grafo, int vertice, int* visited){
+    visited[vertice] = 1;
+    printf("Vertice visitado: %d ", vertice);
+
+    struct Vertice* verticeAdj = grafo->listaAdjacencia[vertice];
+
+    while(verticeAdj != NULL){
+        if(visited[verticeAdj->valor] == 0){
+            bVertice(grafo, verticeAdj->valor, visited);
+        }
+        verticeAdj = verticeAdj->proximo;
+    }
+
+}
+
+
 //Menu para a escolha das opções
 void menu(){
     system("cls");
